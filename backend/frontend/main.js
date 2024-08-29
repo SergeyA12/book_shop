@@ -1,10 +1,11 @@
-const url = 'http://localhost:3066/all';
-
+const url = 'http://135.181.37.152:3022/all';
+async function foo() {
 fetch(url)
   .then(response => response.json())
   .then(data => {
+    document.getElementsByTagName('button')[0].style.display = "none";
     const div = document.querySelector('#div');
-    
+ 
     data.forEach(elm => {
       const col = document.createElement('div');
       col.className = 'col-md-4 mb-4';
@@ -41,6 +42,8 @@ fetch(url)
       div.appendChild(col);
     });
   })
-  .catch(error => {
+  .catch((error) => {
     console.error('Error fetching data:', error);
   });
+}
+

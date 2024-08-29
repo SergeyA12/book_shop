@@ -1,12 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const path = require('path');
 const { MongoClient } = require("mongodb");
-const client = new MongoClient("mongodb://localhost:27017");
+const client = new MongoClient("mongodb://127.0.0.1:27017");
 const cors = require('cors')
 client.connect();
 
 const app = express();
 
+app.use(express.static(__dirname + "/frontend"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({
@@ -19,6 +21,10 @@ app.post("/submit", async (req, res) => {
   await db.collection("products").insertOne({ name, price, photo });
 
   res.send(`Received data - Name: ${name}, Price: ${price}, photo${photo}`);
+});
+
+app.get('/', async (req, res) => {
+	res.sendFile(__dirname + "/frontend/index.html");
 });
 
 app.get("/all", async (req, res) => {
